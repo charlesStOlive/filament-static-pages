@@ -1,11 +1,12 @@
 <?php
 
-namespace CharlesStOlive\FilamentStaticPages\Blocks;
+namespace App\Filament\StaticPages\Blocks;
 
+use CharlesStOlive\FilamentStaticPages\Blocks\Concerns\HasPageBlockFields;
+use CharlesStOlive\FilamentStaticPages\Blocks\PageBlock;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use CharlesStOlive\FilamentStaticPages\Blocks\Concerns\HasPageBlockFields;
 
 class HeroBlock extends PageBlock
 {
@@ -29,12 +30,8 @@ class HeroBlock extends PageBlock
                     Tab::make('Contenu')
                         ->schema([
                             ...static::baseFields(),
-
                             static::titleEditor('title', 'Titre'),
-
-                            Textarea::make('description')
-                                ->label('Description'),
-
+                            Textarea::make('description')->label('Description'),
                             static::actionsEditor(),
                         ]),
 

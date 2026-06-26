@@ -14,14 +14,15 @@ abstract class PageBlock
 
     public static function component(): string
     {
-        // Used with <x-dynamic-component>, resolved via anonymous component path ('static-pages' → resources/views/components)
-        return 'static-pages::blocks.' . static::type();
+        // Resolves to resources/views/components/filament-static-pages/blocks/{type}.blade.php
+        // Published by: php artisan filament-static-pages:install
+        return 'filament-static-pages.blocks.' . static::type();
     }
 
     public static function preview(): ?string
     {
-        // Used with view() in renderPreview(), resolved via 'filament-static-pages' namespace (→ resources/views)
-        return 'filament-static-pages::components.blocks.' . static::type();
+        // Same file, accessed as a view name for Filament preview rendering
+        return 'components.filament-static-pages.blocks.' . static::type();
     }
 
     public static function filamentBlock(): Block

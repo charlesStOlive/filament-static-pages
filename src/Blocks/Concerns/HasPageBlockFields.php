@@ -45,8 +45,13 @@ trait HasPageBlockFields
     {
         $fieldName = str_starts_with($key, 'html_') ? $key : 'html_' . $key;
 
+        $plugins = collect(config('filament-static-pages.rich_editor.plugins', []))
+            ->map(fn($class) => $class::make())
+            ->all();
+
         return RichEditor::make($fieldName)
             ->label($label)
+            ->plugins($plugins)
             ->toolbarButtons([
                 ['bold', 'italic', 'underline', 'strike', 'subscript', 'superscript'],
                 ['h2', 'h3', 'alignStart', 'alignCenter', 'alignEnd'],

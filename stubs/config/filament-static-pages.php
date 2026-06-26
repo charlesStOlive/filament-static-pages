@@ -1,5 +1,10 @@
 <?php
 
+use App\Filament\StaticPages\Blocks\HeroBlock;
+use App\Filament\StaticPages\Blocks\NewContentBlock;
+use App\Filament\StaticPages\SubBlocks\PhotoTexteSubBlock;
+use App\Filament\StaticPages\SubBlocks\TextePhotoSubBlock;
+use App\Filament\StaticPages\SubBlocks\TexteTexteSubBlock;
 use CharlesStOlive\FilamentStaticPages\Models\Page;
 use CharlesStOlive\FilamentStaticPages\RichEditor\Plugins\OrderedListPlugin;
 use CharlesStOlive\FilamentStaticPages\RichEditor\Plugins\PageLinkPlugin;
@@ -28,11 +33,16 @@ return [
         'navigation_icon' => 'heroicon-o-rectangle-stack',
     ],
 
-    // Populated by: php artisan filament-static-pages:install
-    'blocks' => [],
+    'blocks' => [
+        HeroBlock::class,
+        NewContentBlock::class,
+    ],
 
-    // Populated by: php artisan filament-static-pages:install
-    'sub_blocks' => [],
+    'sub_blocks' => [
+        TextePhotoSubBlock::class,
+        PhotoTexteSubBlock::class,
+        TexteTexteSubBlock::class,
+    ],
 
     'rich_editor' => [
         'plugins' => [

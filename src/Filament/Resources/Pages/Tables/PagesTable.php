@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Filament\Resources\Pages\Tables;
+namespace CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Tables;
 
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Notilac\FilamentStaticPages\Livewire\StaticPage;
+use CharlesStOlive\FilamentStaticPages\Livewire\StaticPage;
 
 if (config('filament-static-pages.route.enabled', true)) {
     Route::middleware(config('filament-static-pages.route.middleware', ['web']))

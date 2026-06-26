@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Blocks;
+namespace CharlesStOlive\FilamentStaticPages\Blocks;
 
 use Filament\Forms\Components\Builder\Block;
 
@@ -14,17 +14,19 @@ abstract class PageBlock
 
     public static function component(): string
     {
+        // Used with <x-dynamic-component>, resolved via anonymous component path ('static-pages' → resources/views/components)
         return 'static-pages::blocks.' . static::type();
     }
 
     public static function preview(): ?string
     {
-        return static::component();
+        // Used with view() in renderPreview(), resolved via 'filament-static-pages' namespace (→ resources/views)
+        return 'filament-static-pages::components.blocks.' . static::type();
     }
 
     public static function filamentBlock(): Block
     {
-        return Block::make(static::type())
+        return StaticPageBlock::make(static::type())
             ->label(static::label())
             ->label(function (?array $state): string {
                 $label = mb_strtoupper(static::label());

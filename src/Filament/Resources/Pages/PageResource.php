@@ -1,17 +1,17 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Filament\Resources\Pages;
+namespace CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages;
 
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\Pages\CreatePage;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\Pages\EditPage;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\Pages\ListPages;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\Schemas\PageForm;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\Tables\PagesTable;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Pages\CreatePage;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Pages\EditPage;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Pages\ListPages;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Schemas\PageForm;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Tables\PagesTable;
 
 class PageResource extends Resource
 {

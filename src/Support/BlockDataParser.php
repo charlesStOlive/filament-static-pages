@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Support;
+namespace CharlesStOlive\FilamentStaticPages\Support;
 
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Support\Facades\Storage;

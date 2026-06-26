@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Models;
+namespace CharlesStOlive\FilamentStaticPages\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Livewire;
+namespace CharlesStOlive\FilamentStaticPages\Livewire;
 
 use Livewire\Component;
 

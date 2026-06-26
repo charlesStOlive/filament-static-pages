@@ -7,7 +7,7 @@
 @php
     $rawData = $block['data'] ?? [];
 
-    $data = \Notilac\FilamentStaticPages\Support\BlockDataParser::fromBlockData(
+    $data = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData(
         $rawData,
         $mode,
         $page
@@ -44,7 +44,7 @@
                     @php
                         $subType = $subBlock['type'] ?? null;
 
-                        $subData = \Notilac\FilamentStaticPages\Support\BlockDataParser::fromBlockData(
+                        $subData = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData(
                             $subBlock['data'] ?? [],
                             $mode,
                             $page

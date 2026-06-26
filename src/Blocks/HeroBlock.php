@@ -1,11 +1,11 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Blocks;
+namespace CharlesStOlive\FilamentStaticPages\Blocks;
 
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Notilac\FilamentStaticPages\Blocks\Concerns\HasPageBlockFields;
+use CharlesStOlive\FilamentStaticPages\Blocks\Concerns\HasPageBlockFields;
 
 class HeroBlock extends PageBlock
 {

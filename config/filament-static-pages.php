@@ -1,9 +1,9 @@
 <?php
 
-use Notilac\FilamentStaticPages\Blocks\ContentBlock;
-use Notilac\FilamentStaticPages\Blocks\HeroBlock;
-use Notilac\FilamentStaticPages\Blocks\NewContentBlock;
-use Notilac\FilamentStaticPages\Models\Page;
+use CharlesStOlive\FilamentStaticPages\Blocks\ContentBlock;
+use CharlesStOlive\FilamentStaticPages\Blocks\HeroBlock;
+use CharlesStOlive\FilamentStaticPages\Blocks\NewContentBlock;
+use CharlesStOlive\FilamentStaticPages\Models\Page;
 
 return [
     'table_name' => 'cms_pages',

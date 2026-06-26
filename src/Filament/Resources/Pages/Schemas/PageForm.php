@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Filament\Resources\Pages\Schemas;
+namespace CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Schemas;
 
 use Filament\Actions\Action;
 use Filament\Forms\Components\Builder;
@@ -14,7 +14,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Illuminate\Support\Str;
-use Notilac\FilamentStaticPages\Blocks\PageBlockRegistry;
+use CharlesStOlive\FilamentStaticPages\Blocks\PageBlockRegistry;
 
 class PageForm
 {

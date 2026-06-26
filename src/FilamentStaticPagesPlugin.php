@@ -1,10 +1,10 @@
 <?php
 
-namespace Notilac\FilamentStaticPages;
+namespace CharlesStOlive\FilamentStaticPages;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\PageResource;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\PageResource;
 
 class FilamentStaticPagesPlugin implements Plugin
 {
@@ -17,7 +17,7 @@ class FilamentStaticPagesPlugin implements Plugin
 
     public function getId(): string
     {
-        return 'notilac-filament-static-pages';
+        return 'charlesstolive-filament-static-pages';
     }
 
     public function pageResource(bool $condition = true): static

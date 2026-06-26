@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages;
+namespace CharlesStOlive\FilamentStaticPages;
 
 use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
@@ -20,6 +20,11 @@ class FilamentStaticPagesServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        // Register view namespace so view('static-pages::...') resolves correctly
+        // (needed as fallback when DynamicComponent renders <x-static-pages::...> tags)
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'static-pages');
+
+        // Register anonymous component path for <x-static-pages::blocks.hero> tags
         Blade::anonymousComponentPath(
             __DIR__ . '/../resources/views/components',
             'static-pages'

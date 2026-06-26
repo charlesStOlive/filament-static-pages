@@ -3,7 +3,7 @@
 @php
     $rawData = $block['data'] ?? [];
 
-    $data = \Notilac\FilamentStaticPages\Support\BlockDataParser::fromBlockData($rawData, $mode, $page);
+    $data = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData($rawData, $mode, $page);
 
     $ambiance = $data['ambiance'] ?? [];
 @endphp

@@ -1,10 +1,10 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Filament\Resources\Pages\Pages;
+namespace CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Pages;
 
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Notilac\FilamentStaticPages\Filament\Resources\Pages\PageResource;
+use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\PageResource;
 
 class ListPages extends ListRecords
 {

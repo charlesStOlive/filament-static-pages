@@ -1,5 +1,5 @@
 @php
-    $registry = app(\Notilac\FilamentStaticPages\Blocks\PageBlockRegistry::class);
+    $registry = app(\CharlesStOlive\FilamentStaticPages\Blocks\PageBlockRegistry::class);
 @endphp
 
 <div>

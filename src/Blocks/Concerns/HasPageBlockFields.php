@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Blocks\Concerns;
+namespace CharlesStOlive\FilamentStaticPages\Blocks\Concerns;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;

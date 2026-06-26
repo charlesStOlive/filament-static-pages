@@ -1,6 +1,6 @@
 <?php
 
-namespace Notilac\FilamentStaticPages\Blocks;
+namespace CharlesStOlive\FilamentStaticPages\Blocks;
 
 use Illuminate\Support\Collection;
 

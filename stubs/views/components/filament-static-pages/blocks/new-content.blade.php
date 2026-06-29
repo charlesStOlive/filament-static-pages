@@ -1,10 +1,29 @@
-@props(['block', 'mode' => 'front', 'page' => null])
+@props(['block' => [], 'mode' => 'front', 'page' => null])
 
 @php
-    $data            = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData($block['data'] ?? [], $mode, $page);
+
+
+    // ── Détection du mode d'affichage ─────────────────────────────────────────
+    // MODE FRONT  : $block['data'] contient les données (Livewire static-page).
+    // MODE PREVIEW: Filament Builder passe les champs comme variables Blade
+    //               individuelles → $block est vide.
+    $rawData = $block['data'] ?? [];
+
+    if (empty($rawData)) {
+        // En preview, les sous-blocs ne sont pas prévisualisables individuellement
+        // → on affiche le conteneur principal avec un placeholder
+        $data = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::extractDataFromBladeVars(get_defined_vars());
+        $mode = 'preview';
+        $subcontents = [];
+    } else {
+        $data = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData($rawData, $mode, $page);
+        // subcontents est une liste (array indexé), pas traité par fromBlockData
+        // Chaque sous-bloc est traité individuellement dans la boucle ci-dessous
+        $subcontents = $block['data']['subcontents'] ?? [];
+    }
+
     $ambiance        = $data['ambiance'] ?? [];
     $backgroundDatas = $data['background_datas'] ?? [];
-    $subcontents     = $data['subcontents'] ?? [];
     $couleurPrimaire = $ambiance['couleur_primaire'] ?? 'secondary';
     $styleListes     = $ambiance['style_listes'] ?? 'alternance';
 @endphp
@@ -33,34 +52,37 @@
             </div>
         @endif
 
-        @if (! empty($subcontents))
-            <div class="space-y-14">
-                @foreach ($subcontents as $subBlock)
-                    @php
-                        $subType = $subBlock['type'] ?? null;
-                        $subData = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData(
-                            $subBlock['data'] ?? [],
-                            $mode,
-                            $page,
-                        );
-                        $subView = $subType
-                            ? \CharlesStOlive\FilamentStaticPages\Blocks\SubBlockRegistry::viewFor($subType)
-                            : null;
-                    @endphp
-
-                    @if (! $subView)
-                        @continue
-                    @endif
-
-                    <div class="{{ ! $loop->last ? 'pb-14 border-b border-gray-200' : '' }}">
-                        @include($subView, [
-                            'subData'         => $subData,
-                            'couleurPrimaire' => $couleurPrimaire,
-                            'styleListes'     => $styleListes,
-                        ])
-                    </div>
-                @endforeach
+        @if ($mode === 'preview' && empty($subcontents))
+            {{-- Placeholder visible uniquement dans la prévisualisation Filament --}}
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center text-gray-400 text-sm">
+                Les sous-blocs apparaissent ici en mode front
             </div>
         @endif
+
+        @foreach ($subcontents as $subBlock)
+            @php
+                $subType = $subBlock['type'] ?? null;
+                $subData = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData(
+                    $subBlock['data'] ?? [],
+                    $mode,
+                    $page,
+                );
+                $subView = $subType
+                    ? \CharlesStOlive\FilamentStaticPages\Blocks\SubBlockRegistry::viewFor($subType)
+                    : null;
+            @endphp
+
+            @if (! $subView)
+                @continue
+            @endif
+
+            <div class="{{ ! $loop->last ? 'pb-14 border-b border-gray-200' : '' }}">
+                @include($subView, [
+                    'subData'         => $subData,
+                    'couleurPrimaire' => $couleurPrimaire,
+                    'styleListes'     => $styleListes,
+                ])
+            </div>
+        @endforeach
     </div>
 </x-filament-static-pages.blocks.shared.section>

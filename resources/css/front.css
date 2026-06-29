@@ -1,21 +1,3 @@
-/**
- * filament-static-pages — CSS front
- *
- * Ce fichier est publié dans resources/css/ de votre application.
- * Importez-le dans votre front.css APRÈS @import "tailwindcss" :
- *
- *   @import "./filament-static-pages.css";
- *
- * IMPORTANT — @source doit être déclaré dans votre fichier d'entrée Vite
- * (là où se trouve @import "tailwindcss"), pas ici. Ajoutez dans front.css :
- *
- *   @source "../../../vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php";
- *   (chemin relatif depuis votre entrée Vite vers le vendor)
- *
- * Ce fichier hérite automatiquement de votre @theme (couleurs, fonts, etc.).
- * Personnalisez librement les sections marquées CUSTOMIZE.
- */
-
 /* ── CUSTOMIZE : chemins des SVG dans votre /public ─────────── */
 :root {
     --fsp-brush-svg-url:         url('/images/front/svgs/brush1.svg');

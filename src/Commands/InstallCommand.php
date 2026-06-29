@@ -9,32 +9,67 @@ class InstallCommand extends Command
 {
     protected $signature = 'filament-static-pages:install
                             {--force : Écrase les fichiers existants}
-                            {--skip-colors : Ne pas appeler filament-colors:install}
                             {--skip-migrations : Ne pas exécuter les migrations}';
 
-    protected $description = 'Installe filament-static-pages : publie les blocs, les views et le CSS dans votre application';
+    protected $description = 'Installe filament-static-pages : publie les blocs, les settings, les layouts et le CSS dans votre application';
 
     public function handle(): int
     {
         $this->components->info('Installation de filament-static-pages...');
         $this->newLine();
 
-        // ── 1. filament-color-installer ───────────────────────────────────────
-        if (! $this->option('skip-colors') && $this->colorInstallerAvailable()) {
-            $this->components->task('Configuration du système de couleurs', function () {
-                $this->callSilently('filament-colors:install');
-            });
-        }
+        // ── 1. Migrations Spatie Settings ─────────────────────────────────────
+        $this->components->task('Publication de la migration Spatie Settings', function () {
+            $this->callSilently('vendor:publish', [
+                '--provider' => 'Spatie\LaravelSettings\LaravelSettingsServiceProvider',
+                '--tag'      => 'migrations',
+                '--force'    => $this->option('force'),
+            ]);
+        });
 
-        // ── 2. Migrations ─────────────────────────────────────────────────────
-        $this->components->task('Publication des migrations', function () {
+        // ── 2. Migrations du package ──────────────────────────────────────────
+        $this->components->task('Publication des migrations CMS', function () {
             $this->callSilently('vendor:publish', [
                 '--tag'   => 'filament-static-pages-migrations',
                 '--force' => $this->option('force'),
             ]);
         });
 
-        // ── 3. PHP — Blocks ───────────────────────────────────────────────────
+        // ── 3. Migration settings admin ───────────────────────────────────────
+        $this->components->task('Publication de la migration Admin Settings', function () {
+            $filename = date('Y_m_d_His') . '_create_admin_settings.php';
+            $target   = database_path('settings/' . $filename);
+            File::ensureDirectoryExists(database_path('settings'));
+            if ($this->option('force') || ! $this->adminSettingsMigrationExists()) {
+                File::copy(__DIR__ . '/../../stubs/database/settings/create_admin_settings.php', $target);
+            }
+        });
+
+        // ── 4. PHP — Settings ─────────────────────────────────────────────────
+        $this->components->task('Publication de la classe AdminSettings', function () {
+            $this->publishFile(
+                __DIR__ . '/../../stubs/Settings/AdminSettings.php',
+                app_path('Settings/AdminSettings.php'),
+            );
+        });
+
+        // ── 5. PHP — Filament Pages ───────────────────────────────────────────
+        $this->components->task('Publication de AdminSettingsPage', function () {
+            $this->publishFile(
+                __DIR__ . '/../../stubs/Filament/Pages/AdminSettingsPage.php',
+                app_path('Filament/Pages/AdminSettingsPage.php'),
+            );
+        });
+
+        // ── 6. PHP — Filament Widgets ─────────────────────────────────────────
+        $this->components->task('Publication de ConstructionModeWidget', function () {
+            $this->publishFile(
+                __DIR__ . '/../../stubs/Filament/Widgets/ConstructionModeWidget.php',
+                app_path('Filament/Widgets/ConstructionModeWidget.php'),
+            );
+        });
+
+        // ── 7. PHP — Blocks ───────────────────────────────────────────────────
         $this->components->task('Publication des classes PHP (Blocks)', function () {
             $this->publishDirectory(
                 __DIR__ . '/../../stubs/Blocks',
@@ -42,7 +77,7 @@ class InstallCommand extends Command
             );
         });
 
-        // ── 4. PHP — SubBlocks ────────────────────────────────────────────────
+        // ── 8. PHP — SubBlocks ────────────────────────────────────────────────
         $this->components->task('Publication des classes PHP (SubBlocks)', function () {
             $this->publishDirectory(
                 __DIR__ . '/../../stubs/SubBlocks',
@@ -50,25 +85,55 @@ class InstallCommand extends Command
             );
         });
 
-        // ── 5. Views ─────────────────────────────────────────────────────────
-        $this->components->task('Publication des views', function () {
+        // ── 9. Views — Layouts ────────────────────────────────────────────────
+        $this->components->task('Publication des layouts', function () {
             $this->publishDirectory(
-                __DIR__ . '/../../stubs/views',
-                resource_path('views'),
+                __DIR__ . '/../../stubs/views/layouts',
+                resource_path('views/layouts'),
             );
         });
 
-        // ── 6. CSS stub ───────────────────────────────────────────────────────
-        $this->components->task('Publication du CSS', function () {
-            $target = resource_path('css/filament-static-pages.css');
-
-            if ($this->option('force') || ! File::exists($target)) {
-                File::ensureDirectoryExists(resource_path('css'));
-                File::copy(__DIR__ . '/../../stubs/css/filament-static-pages.css', $target);
-            }
+        // ── 10. Views — Partials ──────────────────────────────────────────────
+        $this->components->task('Publication des partials (header, footer)', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../stubs/views/partials',
+                resource_path('views/partials'),
+            );
         });
 
-        // ── 7. Config (avec les classes App\) ────────────────────────────────
+        // ── 11. Views — Livewire construction ────────────────────────────────
+        $this->components->task('Publication de la page construction', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../stubs/views/livewire',
+                resource_path('views/livewire'),
+            );
+        });
+
+        // ── 12. Views — Filament widget ───────────────────────────────────────
+        $this->components->task('Publication du widget Filament', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../stubs/views/filament',
+                resource_path('views/filament'),
+            );
+        });
+
+        // ── 13. Views — Blocks ────────────────────────────────────────────────
+        $this->components->task('Publication des views de blocs', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../stubs/views/components',
+                resource_path('views/components'),
+            );
+        });
+
+        // ── 14. CSS stub ──────────────────────────────────────────────────────
+        $this->components->task('Publication du CSS', function () {
+            $this->publishFile(
+                __DIR__ . '/../../stubs/css/filament-static-pages.css',
+                resource_path('css/filament-static-pages.css'),
+            );
+        });
+
+        // ── 15. Config (avec les classes App\) ────────────────────────────────
         $this->components->task('Publication de la configuration', function () {
             File::copy(
                 __DIR__ . '/../../stubs/config/filament-static-pages.php',
@@ -76,9 +141,10 @@ class InstallCommand extends Command
             );
         });
 
-        // ── 8. Migrations ─────────────────────────────────────────────────────
+        // ── 16. Migrations ────────────────────────────────────────────────────
         if (! $this->option('skip-migrations') && $this->components->confirm('Exécuter les migrations maintenant ?', true)) {
             $this->call('migrate');
+            $this->call('settings:migrate');
         }
 
         $this->newLine();
@@ -86,20 +152,38 @@ class InstallCommand extends Command
         $this->newLine();
 
         $this->components->bulletList([
-            'Classes publiées dans <comment>app/Filament/StaticPages/</comment>',
-            'Views publiées dans <comment>resources/views/components/filament-static-pages/</comment>',
-            'CSS publié dans <comment>resources/css/filament-static-pages.css</comment>',
+            'app/Settings/AdminSettings.php',
+            'app/Filament/Pages/AdminSettingsPage.php',
+            'app/Filament/Widgets/ConstructionModeWidget.php',
+            'app/Filament/StaticPages/Blocks/ (HeroBlock, NewContentBlock)',
+            'app/Filament/StaticPages/SubBlocks/ (3 sub-blocs)',
+            'resources/views/layouts/ (front, construction)',
+            'resources/views/partials/ (header, footer)',
+            'resources/views/livewire/front/construction-page.blade.php',
+            'resources/views/filament/widgets/construction-mode-widget.blade.php',
+            'resources/views/components/filament-static-pages/ (blocks + shared + sub)',
+            'resources/css/filament-static-pages.css',
+            'config/filament-static-pages.php',
         ]);
 
         $this->newLine();
         $this->line('  <comment>Prochaines étapes :</comment>');
-        $this->line('  1. Ajoutez dans votre fichier CSS Tailwind (entrée Vite) :');
-        $this->line('       <info>@source "../../../vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php";</info>');
+        $this->line('  1. Ajoutez dans votre CSS d\'entrée Vite :');
+        $this->line('       <info>@source "…/vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php";</info>');
         $this->line('       <info>@import "./filament-static-pages.css";</info>');
-        $this->line('  2. Enregistrez le plugin dans votre PanelProvider :');
+        $this->line('  2. Enregistrez dans votre PanelProvider :');
         $this->line('       <info>FilamentStaticPagesPlugin::make()</info>');
+        $this->line('       <info>->widgets([ConstructionModeWidget::class])</info>');
 
         return self::SUCCESS;
+    }
+
+    protected function publishFile(string $source, string $target): void
+    {
+        if ($this->option('force') || ! File::exists($target)) {
+            File::ensureDirectoryExists(dirname($target));
+            File::copy($source, $target);
+        }
     }
 
     protected function publishDirectory(string $source, string $target): void
@@ -120,10 +204,10 @@ class InstallCommand extends Command
         }
     }
 
-    protected function colorInstallerAvailable(): bool
+    protected function adminSettingsMigrationExists(): bool
     {
-        return class_exists(
-            \CharlesStOlive\FilamentColorInstaller\Providers\FilamentColorInstallerServiceProvider::class
-        );
+        $files = File::glob(database_path('settings/*admin_settings*'));
+
+        return ! empty($files);
     }
 }

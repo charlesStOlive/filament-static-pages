@@ -1,7 +1,25 @@
-@props(['block', 'mode' => 'front', 'page' => null])
+@props(['block' => [], 'mode' => 'front', 'page' => null])
 
 @php
-    $data            = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData($block['data'] ?? [], $mode, $page);
+
+
+    // ── Détection du mode d'affichage ─────────────────────────────────────────
+    // MODE FRONT  : $block['data'] contient les données (Livewire static-page).
+    // MODE PREVIEW: Filament Builder passe les champs comme variables Blade
+    //               individuelles → $block est vide.
+    $rawData = $block['data'] ?? [];
+
+    if (empty($rawData)) {
+        // Capture les variables Blade AVANT d'en définir de nouvelles.
+        // extractDataFromBladeVars() exclut les vars système (__env, app…)
+        // et traite images/html en mode preview (temporaryUrl, etc.)
+        $data = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::extractDataFromBladeVars(get_defined_vars());
+        $mode = 'preview';
+    } else {
+        // Traitement normal : image_* → URLs Storage, html_* → HTML rendu
+        $data = \CharlesStOlive\FilamentStaticPages\Support\BlockDataParser::fromBlockData($rawData, $mode, $page);
+    }
+
     $ambiance        = $data['ambiance'] ?? [];
     $backgroundDatas = $data['background_datas'] ?? [];
 @endphp
@@ -26,12 +44,14 @@
             <x-filament-static-pages.blocks.shared.description
                 :description="$data['description']"
                 class="fade-in-up"
+                data-animation-delay="200"
             />
         @endif
 
         <x-filament-static-pages.blocks.shared.button-group
             :boutons="$data['boutons'] ?? []"
             class="fade-in-up"
+            data-animation-delay="400"
         />
     </div>
 </x-filament-static-pages.blocks.shared.section>

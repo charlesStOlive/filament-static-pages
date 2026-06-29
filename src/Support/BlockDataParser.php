@@ -127,6 +127,38 @@ class BlockDataParser
         return $array !== [] && array_keys($array) !== range(0, count($array) - 1);
     }
 
+    /**
+     * Extrait et traite les données depuis les variables Blade disponibles.
+     *
+     * Utilisé en mode "preview" Filament : quand Filament rend un bloc en
+     * prévisualisation, il passe chaque champ directement comme variable Blade
+     * (pas de $block['data']). Cette méthode reconstruit le tableau de données
+     * attendu par les vues à partir de ces variables individuelles.
+     *
+     * Variables système Blade (exclues de l'extraction) : __env, __data,
+     * obLevel, app, errors, component, attributes, slot, etc.
+     *
+     * @param array $vars Résultat de get_defined_vars() dans la vue Blade
+     * @return array Données traitées (images → URL, html_ → HTML rendu)
+     */
+    public static function extractDataFromBladeVars(array $vars): array
+    {
+        // Variables internes Blade/Laravel à ignorer
+        $systemVars = [
+            '__env', '__data', 'obLevel', '__path',
+            'app', 'errors', 'settings', 'user',
+            'component', 'attributes', 'slot',
+        ];
+
+        $extractedData = array_diff_key($vars, array_flip($systemVars));
+
+        // Traiter les données extraites comme des données de bloc normales
+        // mais en mode 'preview' pour que les images utilisent temporaryUrl()
+        $instance = new static('preview');
+
+        return $instance->processAllData($extractedData);
+    }
+
     private function cleanInternalLinks(string $content): string
     {
         return preg_replace_callback(

@@ -136,7 +136,7 @@ trait HasPageBlockFields
                     ])
                     ->default('center')
                     ->visible(fn($get) => $get('display_type') === 'full_cover'),
-            ]);
+            ])->columnSpan(1);
     }
 
     /**
@@ -175,7 +175,7 @@ trait HasPageBlockFields
                     ->imageEditor()
                     ->maxSize(5000)
                     ->helperText('Recommandé : 1920×1080px, format WebP')
-                    ->visible(fn ($get) => $get('mode') === 'image'),
+                    ->visible(fn($get) => $get('mode') === 'image'),
 
                 // ── Couche de blanc — atténue l'image pour lisibilité du texte
                 Select::make('couche_blanc')
@@ -188,7 +188,7 @@ trait HasPageBlockFields
                         'bg-gradient-to-l from-white/80 to-white/70'  => 'Dense',
                     ])
                     ->default('aucun')
-                    ->visible(fn ($get) => $get('mode') === 'image'),
+                    ->visible(fn($get) => $get('mode') === 'image'),
 
                 // ── Dégradés de couleurs — superposés à l'image ───────────
                 Select::make('gradients')
@@ -203,7 +203,7 @@ trait HasPageBlockFields
                         'bg-gradient-to-bl from-tertiary-500 via-primary-500 to-secondary-500' => 'Tertiaire → Primaire → Secondaire (diagonal inverse)',
                     ])
                     ->default('aucun')
-                    ->visible(fn ($get) => $get('mode') === 'image'),
+                    ->visible(fn($get) => $get('mode') === 'image'),
 
                 // ── Masque SVG — visible uniquement en mode "filtre" ──────
                 Select::make('mask')
@@ -216,8 +216,8 @@ trait HasPageBlockFields
                         'hero-mask-3' => 'Masque 3',
                         'hero-mask-4' => 'Masque 4',
                     ])
-                    ->visible(fn ($get) => $get('mode') === 'filtre')
-                    ->required(fn ($get) => $get('mode') === 'filtre'),
+                    ->visible(fn($get) => $get('mode') === 'filtre')
+                    ->required(fn($get) => $get('mode') === 'filtre'),
 
                 // ── Couleur du masque ─────────────────────────────────────
                 Select::make('mask_color')
@@ -230,7 +230,7 @@ trait HasPageBlockFields
                         'bg-tertiary-500'  => 'Tertiaire',
                         'bg-tertiary-200'  => 'Tertiaire claire',
                     ])
-                    ->visible(fn ($get) => $get('mode') === 'filtre'),
+                    ->visible(fn($get) => $get('mode') === 'filtre'),
             ])
             ->columnSpan(1);
     }

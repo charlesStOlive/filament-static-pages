@@ -4,28 +4,35 @@ namespace CharlesStOlive\FilamentStaticPages\Blocks;
 
 use Filament\Forms\Components\Builder\Block;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
-/**
- * Custom Block that overrides renderPreview() to wrap flat field data
- * into the structure expected by block views: ['type' => ..., 'data' => ...].
- *
- * Filament's default renderPreview() passes block fields as flat variables,
- * but our block views expect $block = ['type' => '...', 'data' => [...]].
- */
 class StaticPageBlock extends Block
 {
     public function renderPreview(array $data): View
     {
-        return view(
-            $this->evaluate($this->preview),
+        $key = (string) Str::uuid();
+        $frameId = 'static-page-preview-' . Str::uuid()->toString();
+
+        Cache::put(
+            "static-page-preview-block:{$key}",
             [
-                'block' => [
-                    'type' => $this->getName(),
-                    'data' => $data,
-                ],
-                'mode'  => 'preview',
-                'page'  => null,
-            ]
+                'type' => $this->getName(),
+                'view' => $this->evaluate($this->preview),
+                'data' => $data,
+                'frame_id' => $frameId,
+            ],
+            now()->addMinutes(10),
         );
+
+        return view('filament-static-pages::preview.iframe', [
+            'frameId' => $frameId,
+            'src' => URL::temporarySignedRoute(
+                'filament-static-pages.preview.block',
+                now()->addMinutes(10),
+                ['key' => $key],
+            ),
+        ]);
     }
 }

@@ -21,6 +21,39 @@ return [
         'view' => 'filament-static-pages::livewire.static-page',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Navigation front
+    |--------------------------------------------------------------------------
+    |
+    | Ces vues sont celles de l'application finale.
+    | Le plugin leur injectera :
+    | - $headerPages
+    | - $footerPages
+    | - $siteLogo
+    |
+    */
+    'navigation' => [
+        'enabled' => true,
+
+        'views' => [
+            'layouts.front',
+            'partials.header',
+            'partials.footer',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Settings de l'application hôte
+    |--------------------------------------------------------------------------
+    |
+    */
+    'settings' => [
+        'class' => \App\Settings\AdminSettings::class,
+        'logo_key' => 'logo',
+    ],
+
     'filament' => [
         'register_resource' => true,
         'navigation_group' => 'CMS',

@@ -21,8 +21,8 @@ class ConstructionPage extends Component
         $settingsClass = config('filament-static-pages.settings.class');
         $settings = app($settingsClass);
 
-        return view('livewire.front.construction-page')
-            ->layout('layouts.construction')
+        return view('filament-static-pages::livewire.construction-page')
+            ->layout('filament-static-pages::layouts.construction')
             ->title($settings->construction['titre'] ?? 'Site en maintenance');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\Schemas;
 
+use CharlesStOlive\FilamentStaticPages\Blocks\PageBlockRegistry;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\DateTimePicker;
@@ -9,12 +10,12 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Resources\Pages\EditRecord;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Width;
 use Illuminate\Support\Str;
-use CharlesStOlive\FilamentStaticPages\Blocks\PageBlockRegistry;
 
 class PageForm
 {
@@ -33,7 +34,9 @@ class PageForm
                                 ->grow()
                                 ->blockNumbers(false)
                                 ->editAction(
-                                    fn($action) => $action->modalWidth(Width::SevenExtraLarge)
+                                    fn($action) => $action
+                                        ->modalWidth(Width::SevenExtraLarge)
+                                        ->modalSubmitActionLabel('Voir les modifications')
                                 )
                                 ->extraItemActions([
                                     Action::make('toggleVisibility')
@@ -103,6 +106,11 @@ class PageForm
                                 ->label('Date de publication'),
                         ])
                         ->footerActions([
+                            Action::make('save')
+                                ->label('Sauvegarder')
+                                ->button()
+                                ->color('success')
+                                ->action(fn(EditRecord $livewire) => $livewire->save()),
                             self::getPreviewAction()
                                 ->label('Prévisualiser la page')
                                 ->button()

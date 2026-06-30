@@ -14,8 +14,16 @@ class EditPage extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            $this->getSaveFormAction()->color('success')->label('Sauvegarder')->formId('form'),
+            DeleteAction::make()
+
+
         ];
+    }
+
+    protected function getFormActions(): array
+    {
+        return [];
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
@@ -36,29 +44,5 @@ class EditPage extends EditRecord
         Log::info('[FilamentStaticPages] EditPage::afterSave — enregistrement réussi', [
             'record_id' => $this->record?->getKey(),
         ]);
-    }
-
-    protected function onValidationError(\Illuminate\Validation\ValidationException $exception): void
-    {
-        Log::warning('[FilamentStaticPages] EditPage::onValidationError — erreur de validation', [
-            'errors' => $exception->errors(),
-        ]);
-
-        // Filament ne peut pas surligner les champs qui sont dans un modal de bloc fermé.
-        // On construit donc une notification lisible à partir des messages de validation.
-        $lines = collect($exception->errors())
-            ->flatMap(fn (array $messages, string $path) => collect($messages)->map(
-                // Extraire le nom du champ depuis le chemin imbriqué (ex: data.contents.{uuid}.data.background_datas.mode)
-                fn (string $msg) => '<strong>' . last(explode('.', $path)) . '</strong> : ' . $msg
-            ))
-            ->unique()
-            ->implode('<br>');
-
-        \Filament\Notifications\Notification::make()
-            ->title('Impossible de sauvegarder — champ(s) invalide(s)')
-            ->body($lines)
-            ->danger()
-            ->persistent()
-            ->send();
     }
 }

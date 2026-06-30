@@ -61,6 +61,7 @@ return [
         'navigation_group' => 'CMS',
         'navigation_label' => 'Pages',
         'navigation_icon' => 'heroicon-o-rectangle-stack',
+        'settings_page' => null, // e.g. \App\Filament\Pages\AdminSettingsPage::class
     ],
 
     // Populated by: php artisan filament-static-pages:install

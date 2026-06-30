@@ -13,7 +13,9 @@ trait HandlesConstructionMode
         $settingsClass = config('filament-static-pages.settings.class');
 
         $settings = app($settingsClass);
-        
+
+        \Log::info('Checking construction mode: ' . json_encode($settings->construction));
+
         if (($settings->construction['activate'] ?? false) && !auth()->check()) {
             redirect()->route('construction');
         }

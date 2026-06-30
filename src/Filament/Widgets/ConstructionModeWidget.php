@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace CharlesStOlive\FilamentStaticPages\Filament\Widgets;
 
-use App\Settings\AdminSettings;
 use Filament\Notifications\Notification;
 use Filament\Widgets\Widget;
 
 class ConstructionModeWidget extends Widget
 {
-    protected string $view = 'filament.widgets.construction-mode-widget';
+    protected string $view = 'filament-static-pages::filament.widgets.construction-mode-widget';
 
     protected static ?int $sort = 1;
 
@@ -18,13 +17,13 @@ class ConstructionModeWidget extends Widget
 
     public function mount(): void
     {
-        $settings = app(AdminSettings::class);
+        $settings = app(config('filament-static-pages.settings.class'));
         $this->isActive = $settings->construction['activate'] ?? false;
     }
 
     public function toggleConstruction(): void
     {
-        $settings = app(AdminSettings::class);
+        $settings = app(config('filament-static-pages.settings.class'));
         $construction = $settings->construction;
         $construction['activate'] = ! $construction['activate'];
         $settings->construction = $construction;

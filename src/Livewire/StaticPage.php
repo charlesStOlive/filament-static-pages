@@ -3,6 +3,7 @@
 namespace CharlesStOlive\FilamentStaticPages\Livewire;
 
 use Livewire\Component;
+use CharlesStOlive\FilamentStaticPages\Livewire\Concerns\HandlesConstructionMode;
 
 class StaticPage extends Component
 {

@@ -20,7 +20,12 @@ class AdminSettingsPage extends SettingsPage
 
     protected static string $settings = AdminSettings::class;
 
-    protected static ?string $navigationLabel = 'Paramètres';
+    protected static ?string $navigationLabel = 'Paramètres CMS';
+
+    public static function getNavigationGroup(): ?string
+    {
+        return config('filament-static-pages.filament.navigation_group', 'CMS');
+    }
 
     protected static ?string $title = 'Paramètres du site';
 
@@ -68,8 +73,8 @@ class AdminSettingsPage extends SettingsPage
                         FileUpload::make('logo')
                             ->label('Logo')
                             ->image()
+                            ->disk('public')
                             ->directory('logos')
-                            ->visibility('public')
                             ->acceptedFileTypes(['image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml'])
                             ->maxSize(2048),
 

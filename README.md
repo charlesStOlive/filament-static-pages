@@ -49,7 +49,6 @@ La commande publie dans votre application, sans écraser les fichiers existants 
 |---|---|
 | `AdminSettings.php` | `app/Settings/AdminSettings.php` |
 | `AdminSettingsPage.php` | `app/Filament/Pages/AdminSettingsPage.php` |
-| `ConstructionModeWidget.php` | `app/Filament/Widgets/ConstructionModeWidget.php` |
 | `HeroBlock.php` | `app/Filament/StaticPages/Blocks/HeroBlock.php` |
 | `NewContentBlock.php` | `app/Filament/StaticPages/Blocks/NewContentBlock.php` |
 | `TextePhotoSubBlock.php` | `app/Filament/StaticPages/SubBlocks/TextePhotoSubBlock.php` |
@@ -97,12 +96,13 @@ resources/views/
         └── texte-texte.blade.php
 ```
 
-### Configuration & CSS
+### Configuration, CSS & JS
 
 | Fichier | Destination |
 |---|---|
 | `config/filament-static-pages.php` | `config/filament-static-pages.php` |
 | `filament-static-pages.css` | `resources/css/filament-static-pages.css` |
+| `js/front/` (index.js, FrontApp, animations, Alpine) | `resources/js/front/` |
 
 ---
 
@@ -112,7 +112,7 @@ Dans votre `PanelProvider` :
 
 ```php
 use CharlesStOlive\FilamentStaticPages\FilamentStaticPagesPlugin;
-use App\Filament\Widgets\ConstructionModeWidget;
+use CharlesStOlive\FilamentStaticPages\Filament\Widgets\ConstructionModeWidget;
 use App\Filament\Pages\AdminSettingsPage;
 
 public function panel(Panel $panel): Panel
@@ -269,7 +269,7 @@ Déclarez le sous-bloc dans la config :
 
 ---
 
-## CSS & Tailwind v4
+## CSS, JS & Tailwind v4
 
 Le fichier `resources/css/filament-static-pages.css` publié contient les classes utilitaires front (boutons, animations, effets de masque).
 
@@ -279,16 +279,29 @@ Dans votre fichier CSS d'entrée principal (ex. `resources/css/front.css`) :
 /* Scan des vues du package pour les classes Tailwind */
 @source "../../../vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php";
 
-@import "./filament-static-pages.css";
+@import "./sp/filament-static-pages.css";
 ```
 
 > **Important** : `@source` doit être dans le fichier d'entrée racine déclaré dans `vite.config.js`, pas dans un fichier importé.
+
+### JS front
+
+Le dossier `resources/js/front/` publié contient l'app Alpine (animations, composants, FrontApp).
+
+Dans votre `vite.config.js`, ajoutez l'entrée :
+
+```js
+input: [
+    // ... vos entrées existantes
+    'resources/js/front/index.js',
+],
+```
 
 ---
 
 ## Mode construction
 
-Le widget `ConstructionModeWidget` publié dans `app/Filament/Widgets/` permet d'activer/désactiver le mode maintenance depuis le dashboard Filament.
+Le widget `ConstructionModeWidget` (fourni directement par le plugin, namespace `CharlesStOlive\FilamentStaticPages\Filament\Widgets`) permet d'activer/désactiver le mode maintenance depuis le dashboard Filament.
 
 Il s'appuie sur `AdminSettings::construction` (champ `array` avec `enabled`, `titre`, `description`).
 

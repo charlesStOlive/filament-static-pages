@@ -5,10 +5,13 @@ namespace CharlesStOlive\FilamentStaticPages;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use CharlesStOlive\FilamentStaticPages\Filament\Resources\Pages\PageResource;
+use CharlesStOlive\FilamentStaticPages\Filament\Widgets\ConstructionModeWidget;
 
 class FilamentStaticPagesPlugin implements Plugin
 {
     protected bool $hasPageResource = true;
+
+    protected bool $hasConstructionWidget = false;
 
     public static function make(): static
     {
@@ -32,19 +35,31 @@ class FilamentStaticPagesPlugin implements Plugin
         return $this->hasPageResource;
     }
 
+    public function constructionWidget(bool $condition = true): static
+    {
+        $this->hasConstructionWidget = $condition;
+
+        return $this;
+    }
+
+    public function hasConstructionWidget(): bool
+    {
+        return $this->hasConstructionWidget;
+    }
+
     public function register(Panel $panel): void
     {
-        if (! $this->hasPageResource()) {
-            return;
+        if ($this->hasPageResource() && config('filament-static-pages.filament.register_resource', true)) {
+            $panel->resources([
+                PageResource::class,
+            ]);
         }
 
-        if (! config('filament-static-pages.filament.register_resource', true)) {
-            return;
+        if ($this->hasConstructionWidget()) {
+            $panel->widgets([
+                ConstructionModeWidget::class,
+            ]);
         }
-
-        $panel->resources([
-            PageResource::class,
-        ]);
     }
 
     public function boot(Panel $panel): void

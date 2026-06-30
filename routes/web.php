@@ -13,11 +13,9 @@ if (config('filament-static-pages.route.use_static_page_as_home_page', true)) {
         ->name('home');
 }
 
-if (config('filament-static-pages.route.use_construction_page', true)) {
-    Route::middleware(config('filament-static-pages.route.middleware', ['web']))
-        ->get('/construction', ConstructionPage::class)
-        ->name('construction');
-}
+Route::middleware(config('filament-static-pages.route.middleware', ['web']))
+    ->get('/construction', ConstructionPage::class)
+    ->name('construction');
 
 if (config('filament-static-pages.route.enabled', true)) {
     Route::middleware(config('filament-static-pages.route.middleware', ['web']))

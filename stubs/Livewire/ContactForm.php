@@ -138,7 +138,7 @@ class ContactForm extends Component
     {
         if (function_exists('filament_static_pages_setting')) {
             return filament_static_pages_setting(
-                'email',
+                'mailRecepteur',
                 config('mail.contact_email', config('mail.from.address'))
             );
         }

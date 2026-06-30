@@ -16,12 +16,13 @@ class HomePage extends Component
 
     public function mount($slug = 'home')
     {
+        \Log::info('HomePage mount called with slug: ' . $slug);
         $this->checkConstruction();
-        
+
         $this->slug = $slug;
 
         $model = config('filament-static-pages.model');
-        
+
         // Récupérer la page par slug ou afficher 404
         $this->page = $model::where('is_homepage', true)->first();
 
@@ -30,11 +31,11 @@ class HomePage extends Component
         }
     }
 
-    
+
     public function render()
     {
-        return view('livewire.front.static-page')
-            ->layout('layouts.front', [
+        return view(config('filament-static-pages.front.view', 'filament-static-pages::livewire.static-page'))
+            ->layout(config('filament-static-pages.front.layout', 'layouts.front'), [
                 'hasForm' => $this->page->has_form,
                 'metaDescription' => $this->page->meta_description,
                 'metaKeywords' => $this->page->meta_keywords,

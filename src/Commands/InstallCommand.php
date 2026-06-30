@@ -61,14 +61,6 @@ class InstallCommand extends Command
             );
         });
 
-        // ── 6. PHP — Filament Widgets ─────────────────────────────────────────
-        $this->components->task('Publication de ConstructionModeWidget', function () {
-            $this->publishFile(
-                __DIR__ . '/../../stubs/Filament/Widgets/ConstructionModeWidget.php',
-                app_path('Filament/Widgets/ConstructionModeWidget.php'),
-            );
-        });
-
         // ── 7. PHP — Blocks ───────────────────────────────────────────────────
         $this->components->task('Publication des classes PHP (Blocks)', function () {
             $this->publishDirectory(
@@ -109,6 +101,30 @@ class InstallCommand extends Command
             );
         });
 
+        // ── 11b. PHP — Livewire ContactForm ──────────────────────────────────
+        $this->components->task('Publication du composant Livewire (ContactForm)', function () {
+            $this->publishFile(
+                __DIR__ . '/../../stubs/Livewire/ContactForm.php',
+                app_path('Livewire/ContactForm.php'),
+            );
+        });
+
+        // ── 11c. Views — Emails ───────────────────────────────────────────────
+        $this->components->task('Publication des vues emails', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../stubs/views/emails',
+                resource_path('views/emails'),
+            );
+        });
+
+        // ── 11d. Images front ─────────────────────────────────────────────────
+        $this->components->task('Publication des images front', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../resources/images/front',
+                resource_path('images/front'),
+            );
+        });
+
         // ── 12. Views — Filament widget ───────────────────────────────────────
         $this->components->task('Publication du widget Filament', function () {
             $this->publishDirectory(
@@ -128,12 +144,20 @@ class InstallCommand extends Command
         // ── 14. CSS stub ──────────────────────────────────────────────────────
         $this->components->task('Publication du CSS', function () {
             $this->publishFile(
-                __DIR__ . '/../../stubs/css/filament-static-pages.css',
-                resource_path('css/filament-static-pages.css'),
+                __DIR__ . '/../../stubs/css/front/filament-static-pages.css',
+                resource_path('css/front/sp/filament-static-pages.css'),
             );
         });
 
-        // ── 15. Config (avec les classes App\) ────────────────────────────────
+        // ── 15. JS front ──────────────────────────────────────────────────────
+        $this->components->task('Publication du JS front', function () {
+            $this->publishDirectory(
+                __DIR__ . '/../../stubs/js/front',
+                resource_path('js/front'),
+            );
+        });
+
+        // ── 16. Config (avec les classes App\) ────────────────────────────────
         $this->components->task('Publication de la configuration', function () {
             File::copy(
                 __DIR__ . '/../../stubs/config/filament-static-pages.php',
@@ -144,7 +168,6 @@ class InstallCommand extends Command
         // ── 16. Migrations ────────────────────────────────────────────────────
         if (! $this->option('skip-migrations') && $this->components->confirm('Exécuter les migrations maintenant ?', true)) {
             $this->call('migrate');
-            $this->call('settings:migrate');
         }
 
         $this->newLine();
@@ -154,15 +177,17 @@ class InstallCommand extends Command
         $this->components->bulletList([
             'app/Settings/AdminSettings.php',
             'app/Filament/Pages/AdminSettingsPage.php',
-            'app/Filament/Widgets/ConstructionModeWidget.php',
             'app/Filament/StaticPages/Blocks/ (HeroBlock, NewContentBlock)',
             'app/Filament/StaticPages/SubBlocks/ (3 sub-blocs)',
             'resources/views/layouts/ (front, construction)',
             'resources/views/partials/ (header, footer)',
             'resources/views/livewire/front/construction-page.blade.php',
-            'resources/views/filament/widgets/construction-mode-widget.blade.php',
+            'app/Livewire/ContactForm.php',
+            'resources/views/emails/contact.blade.php',
+            'resources/images/front/ (svgs, masks webp)',
             'resources/views/components/filament-static-pages/ (blocks + shared + sub)',
-            'resources/css/filament-static-pages.css',
+            'resources/css/front/sp/filament-static-pages.css',
+            'resources/js/front/ (index.js, FrontApp, animations, Alpine)',
             'config/filament-static-pages.php',
         ]);
 
@@ -170,10 +195,12 @@ class InstallCommand extends Command
         $this->line('  <comment>Prochaines étapes :</comment>');
         $this->line('  1. Ajoutez dans votre CSS d\'entrée Vite :');
         $this->line('       <info>@source "…/vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php";</info>');
-        $this->line('       <info>@import "./filament-static-pages.css";</info>');
-        $this->line('  2. Enregistrez dans votre PanelProvider :');
+        $this->line('       <info>@import "./sp/filament-static-pages.css";</info>');
+        $this->line('  2. Ajoutez dans votre vite.config.js :');
+        $this->line('       <info>\'resources/js/front/index.js\'</info>');
+        $this->line('  3. Enregistrez dans votre PanelProvider :');
         $this->line('       <info>FilamentStaticPagesPlugin::make()</info>');
-        $this->line('       <info>->widgets([ConstructionModeWidget::class])</info>');
+        $this->line('       <info>->constructionWidget() // active le widget de mode construction</info>');
 
         return self::SUCCESS;
     }

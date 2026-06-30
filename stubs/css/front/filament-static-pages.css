@@ -1,13 +1,13 @@
 /* Configuration des sources pour Tailwind */
-@source '../../../resources/views/layouts/front.blade.php';
-@source '../../../resources/views/front*';
-@source '../../../resources/views/components/**/*';
-@source '../../../app/Filament/Resources/Pages/Schemas/PageForm.php';
+@source '../../../../resources/views/layouts/front.blade.php';
+@source '../../../../resources/views/front*';
+@source '../../../../resources/views/components/**/*';
+@source '../../../../app/Filament/Resources/Pages/Schemas/PageForm.php';
 /* Classes dynamiques (gradients, masks, couleurs) générées par les blocs */
-@source '../../../app/Filament/StaticPages/Blocks/**/*';
-@source '../../../app/Filament/StaticPages/SubBlocks/**/*';
+@source '../../../../app/Filament/StaticPages/Blocks/**/*';
+@source '../../../../app/Filament/StaticPages/SubBlocks/**/*';
 /* Vues du package filament-static-pages (livewire static-page) */
-@source '../../../vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php';
+@source '../../../../vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php';
 
 /* Test explicite des classes - Safelist pour les couleurs primaire, secondaire et tertiaire */
 @source inline("bg-primary-300 bg-primary-500 bg-primary-700");
@@ -152,9 +152,9 @@
     right: -8%;
     height: 120%;
     transform: translateY(-50%);
-    mask: url("../../images/front/svgs/brush1.svg") no-repeat center;
+    mask: url("../../../images/front/svgs/brush1.svg") no-repeat center;
     mask-size: contain;
-    -webkit-mask: url("../../images/front/svgs/brush1.svg") no-repeat center;
+    -webkit-mask: url("../../../images/front/svgs/brush1.svg") no-repeat center;
     -webkit-mask-size: contain;
     z-index: -1;
 }
@@ -174,15 +174,15 @@
 
 /* Masque SVG pour les images */
 .mask-brush {
-    -webkit-mask: url('../../images/front/svgs/brushc1.svg') no-repeat center;
-    mask: url('../../images/front/svgs/brushc1.svg') no-repeat center;
+    -webkit-mask: url('../../../images/front/svgs/brushc1.svg') no-repeat center;
+    mask: url('../../../images/front/svgs/brushc1.svg') no-repeat center;
     -webkit-mask-size: contain;
     mask-size: contain;
 }
 
 .mask-brush-169 {
-    -webkit-mask: url('../../images/front/svgs/brushc169.svg') no-repeat center;
-    mask: url('../../images/front/svgs/brushc169.svg') no-repeat center;
+    -webkit-mask: url('../../../images/front/svgs/brushc169.svg') no-repeat center;
+    mask: url('../../../images/front/svgs/brushc169.svg') no-repeat center;
     -webkit-mask-size: contain;
     mask-size: contain;
 }
@@ -190,7 +190,7 @@
 
 /* Classe de base pour tous les masques hero */
 .hero-mask-base {
-  --mask-url: url("../../images/front/mask1.webp"); /* valeur par défaut */
+  --mask-url: url("../../../images/front/mask1.webp"); /* valeur par défaut */
   
   /* Propriétés communes à tous les masques */
   mask-image: var(--mask-url);
@@ -214,39 +214,39 @@
 .hero-mask-1{
   /* masque via luminance (blanc = opaque, noir = transparent) */
   
-  mask-image: url("../../images/front/mask1.webp");
+  mask-image: url("../../../images/front/mask1.webp");
   mask-mode: luminance;
   mask-repeat: no-repeat;
   mask-size: cover;
   mask-position: center;
   /* Safari/WebKit */
-  -webkit-mask-image: url("../../images/front/mask1.webp");
+  -webkit-mask-image: url("../../../images/front/mask1.webp");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
   -webkit-mask-position: center;
 }
 .hero-mask-2{
   /* masque via luminance (blanc = opaque, noir = transparent) */
-  mask-image: url("../../images/front/mask2.webp");
+  mask-image: url("../../../images/front/mask2.webp");
   mask-mode: luminance;
   mask-repeat: no-repeat;
   mask-size: cover;
   mask-position: center;
   /* Safari/WebKit */
-  -webkit-mask-image: url("../../images/front/mask2.webp");
+  -webkit-mask-image: url("../../../images/front/mask2.webp");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
   -webkit-mask-position: center;
 }
 .hero-mask-3{
   /* masque via luminance (blanc = opaque, noir = transparent) */
-  mask-image: url("../../images/front/mask3.webp");
+  mask-image: url("../../../images/front/mask3.webp");
   mask-mode: luminance;
   mask-repeat: no-repeat;
   mask-size: cover;
   mask-position: center;
   /* Safari/WebKit */
-  -webkit-mask-image: url("../../images/front/mask3.webp");
+  -webkit-mask-image: url("../../../images/front/mask3.webp");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
   -webkit-mask-position: center;
@@ -254,13 +254,13 @@
 
 .hero-mask-3{
   /* masque via luminance (blanc = opaque, noir = transparent) */
-  mask-image: url("../../images/front/mask4.webp");
+  mask-image: url("../../../images/front/mask4.webp");
   mask-mode: luminance;
   mask-repeat: no-repeat;
   mask-size: cover;
   mask-position: center;
   /* Safari/WebKit */
-  -webkit-mask-image: url("../../images/front/mask4.webp");
+  -webkit-mask-image: url("../../../images/front/mask4.webp");
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: cover;
   -webkit-mask-position: center;

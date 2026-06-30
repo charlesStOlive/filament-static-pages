@@ -22,7 +22,7 @@ class AdminSettings extends Settings
 
     public static function group(): string
     {
-        return 'admin';
+        return 'admin_cms';
     }
 
     public static function encrypted(): array

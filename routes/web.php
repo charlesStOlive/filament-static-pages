@@ -1,9 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use CharlesStOlive\FilamentStaticPages\Livewire\HomePage;
 use CharlesStOlive\FilamentStaticPages\Livewire\StaticPage;
+use CharlesStOlive\FilamentStaticPages\Livewire\ConstructionPage;
 use CharlesStOlive\FilamentStaticPages\Http\Controllers\PreviewBlockController;
 
+
+if (config('filament-static-pages.route.use_static_page_as_home_page', true)) {
+    Route::middleware(config('filament-static-pages.route.middleware', ['web']))
+        ->get('/', HomePage::class)
+        ->name('home');
+}
+
+if (config('filament-static-pages.route.use_construction_page', true)) {
+    Route::middleware(config('filament-static-pages.route.middleware', ['web']))
+        ->get('/construction', ConstructionPage::class)
+        ->name('construction');
+}
 
 if (config('filament-static-pages.route.enabled', true)) {
     Route::middleware(config('filament-static-pages.route.middleware', ['web']))

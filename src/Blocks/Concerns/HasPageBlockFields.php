@@ -10,6 +10,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Support\Str;
 
@@ -79,20 +80,43 @@ trait HasPageBlockFields
                     ->default('primary')
                     ->required(),
 
-                Select::make('type_lien')
-                    ->label('Type de lien')
-                    ->options([
-                        'page' => 'Page du site',
-                        'externe' => 'URL externe',
-                    ])
-                    ->default('page')
-                    ->live()
-                    ->required(),
+                Section::make([
+                    Select::make('type_lien')
+                        ->label('Type de lien')
+                        ->options([
+                            'page' => 'Page du site',
+                            'externe' => 'URL externe',
+                        ])
+                        ->default('page')
+                        ->live()
+                        ->required(),
 
-                TextInput::make('url_externe')
-                    ->label('URL externe')
-                    ->placeholder('https://exemple.com')
-                    ->visible(fn($get) => $get('type_lien') === 'externe'),
+                    Select::make('page_id')
+                        ->label('Page')
+                        ->options(fn() => [
+                            'same_page' => 'Rester sur la page',
+                            ...(($model = config('filament-static-pages.model')) ? $model::pluck('titre', 'slug')->toArray() : []),
+                        ])
+                        ->default('same_page')
+                        ->visible(fn($get) => $get('type_lien') === 'page')
+                        ->live()
+                        ->required(fn($get) => $get('type_lien') === 'page'),
+
+                    TextInput::make('ancre')
+                        ->label('Ancre')
+                        ->placeholder('ex: #ma-section')
+                        ->visible(fn($get) => $get('type_lien') === 'page')
+                        ->helperText('Optionnel : section spécifique de la page'),
+
+                    TextInput::make('url_externe')
+                        ->label('URL externe')
+                        ->placeholder('https://exemple.com')
+                        ->visible(fn($get) => $get('type_lien') === 'externe'),
+
+                    Toggle::make('nouvel_onglet')
+                        ->label('Ouvrir dans un nouvel onglet')
+                        ->default(false),
+                ])->contained(false)->columns(3),
             ])
             ->collapsible()
             ->maxItems(4)

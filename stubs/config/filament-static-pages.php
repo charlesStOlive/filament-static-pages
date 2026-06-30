@@ -33,16 +33,9 @@ return [
         'navigation_icon' => 'heroicon-o-rectangle-stack',
     ],
 
-    'blocks' => [
-        HeroBlock::class,
-        NewContentBlock::class,
-    ],
+    'blocks' => [],
 
-    'sub_blocks' => [
-        TextePhotoSubBlock::class,
-        PhotoTexteSubBlock::class,
-        TexteTexteSubBlock::class,
-    ],
+    'sub_blocks' => [],
 
     'rich_editor' => [
         'plugins' => [

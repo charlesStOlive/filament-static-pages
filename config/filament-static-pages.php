@@ -14,6 +14,8 @@ return [
         'prefix' => 'pages',
         'name' => 'page',
         'middleware' => ['web'],
+        'use_static_page_as_home_page' => true,
+        'use_construction_page' => true,
     ],
 
     'front' => [

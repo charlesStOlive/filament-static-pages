@@ -34,10 +34,16 @@ class FilamentStaticPagesServiceProvider extends PackageServiceProvider
         // Injecte $headerPages, $footerPages et $siteLogo dans les vues front configurées
         $this->shareNavigationData();
 
-        // Publish CSS stub
+        // Publish front assets (css, js) — preserves subdirectory structure
         $this->publishes([
-            __DIR__ . '/../stubs/css/filament-static-pages.css' => resource_path('css/filament-static-pages.css'),
-        ], 'filament-static-pages-css');
+            __DIR__ . '/../stubs/css' => resource_path('css'),
+            __DIR__ . '/../stubs/js'  => resource_path('js'),
+        ], 'filament-static-pages-assets');
+
+        // Publish front views stubs
+        $this->publishes([
+            __DIR__ . '/../stubs/views' => resource_path('views'),
+        ], 'filament-static-pages-views');
     }
 
     private function shareNavigationData(): void

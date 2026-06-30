@@ -1,0 +1,269 @@
+/* Configuration des sources pour Tailwind */
+@source '../../../resources/views/layouts/front.blade.php';
+@source '../../../resources/views/front*';
+@source '../../../resources/views/components/**/*';
+@source '../../../app/Filament/Resources/Pages/Schemas/PageForm.php';
+/* Classes dynamiques (gradients, masks, couleurs) générées par les blocs */
+@source '../../../app/Filament/StaticPages/Blocks/**/*';
+@source '../../../app/Filament/StaticPages/SubBlocks/**/*';
+/* Vues du package filament-static-pages (livewire static-page) */
+@source '../../../vendor/charlesstolive/filament-static-pages/resources/views/**/*.blade.php';
+
+/* Test explicite des classes - Safelist pour les couleurs primaire, secondaire et tertiaire */
+@source inline("bg-primary-300 bg-primary-500 bg-primary-700");
+@source inline("bg-secondary-300 bg-secondary-500 bg-secondary-700"); 
+@source inline("bg-tertiary-300 bg-tertiary-500 bg-tertiary-700");
+@source inline("text-primary-300 text-primary-500 text-primary-700");
+@source inline("text-secondary-300 text-secondary-500 text-secondary-700");
+@source inline("text-tertiary-300 text-tertiary-500 text-tertiary-700");
+@source inline("border-primary-300 border-primary-500 border-primary-700");
+@source inline("border-secondary-300 border-secondary-500 border-secondary-700");
+@source inline("border-tertiary-300 border-tertiary-500 border-tertiary-700");
+
+/* Variants hover, focus, active */
+@source inline("hover:bg-primary-300 hover:bg-primary-500 hover:bg-primary-700");
+@source inline("hover:bg-secondary-300 hover:bg-secondary-500 hover:bg-secondary-700");
+@source inline("hover:bg-tertiary-300 hover:bg-tertiary-500 hover:bg-tertiary-700");
+@source inline("focus:bg-primary-300 focus:bg-primary-500 focus:bg-primary-700");
+@source inline("focus:bg-secondary-300 focus:bg-secondary-500 focus:bg-secondary-700");  
+@source inline("focus:bg-tertiary-300 focus:bg-tertiary-500 focus:bg-tertiary-700");
+
+/* Custom utilities spécifiques au front avec Tailwind */
+@layer utilities {
+
+    
+    /* Classe utilitaire pour utiliser la font heading */
+    .font-heading {
+        font-family: var(--font-heading);
+    }
+    
+    /* Playwrite CU font classes */
+    .playwrite-cu {
+        font-family: "Playwrite CU", cursive;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+    
+    .playwrite-cu-100 {
+        font-family: "Playwrite CU", cursive;
+        font-optical-sizing: auto;
+        font-weight: 100;
+        font-style: normal;
+    }
+    
+    .playwrite-cu-200 {
+        font-family: "Playwrite CU", cursive;
+        font-optical-sizing: auto;
+        font-weight: 200;
+        font-style: normal;
+    }
+    
+    .playwrite-cu-300 {
+        font-family: "Playwrite CU", cursive;
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-style: normal;
+    }
+    
+    .playwrite-cu-400 {
+        font-family: "Playwrite CU", cursive;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
+    
+    /* Classes pour les boutons */
+    .btn-base {
+        @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 cursor-pointer;
+    }
+
+    .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+    
+    .fade-in-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .fade-in-left {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+    
+    .fade-in-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    .fade-in-right {
+        opacity: 0;
+        transform: translateX(30px);
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+    
+    .fade-in-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+}
+
+/* Configuration automatique pour prose - les titres utilisent Comfortaa par défaut */
+.prose {
+    --tw-prose-headings: var(--font-heading);
+}
+
+.form-input-art {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+    }
+    
+.form-input-art:focus {
+    outline: none;
+    border-color: var(--color-primary-500);
+    box-shadow: 0 0 0 3px rgba(178, 64, 48, 0.1);
+}
+
+/* Effet pinceau (était dans front/theme.css @layer utilities) */
+.prose-brush strong,
+.prose-brush b,
+.prose-brush .font-bold {
+    position: relative;
+    color: white !important;
+    background: none !important;
+    -webkit-text-fill-color: white !important;
+    padding: 0.2em 0;
+}
+
+.prose-brush strong::before,
+.prose-brush b::before,
+.prose-brush .font-bold::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -8%;
+    right: -8%;
+    height: 120%;
+    transform: translateY(-50%);
+    mask: url("../../images/front/svgs/brush1.svg") no-repeat center;
+    mask-size: contain;
+    -webkit-mask: url("../../images/front/svgs/brush1.svg") no-repeat center;
+    -webkit-mask-size: contain;
+    z-index: -1;
+}
+
+/* Utilisation des palettes Tailwind générées par la commande */
+.prose-brush-primary strong::before,
+.prose-brush-primary b::before,
+.prose-brush-primary .font-bold::before {
+    background: linear-gradient(135deg, var(--color-tertiary-600), var(--color-primary-400));
+}
+
+.prose-brush-secondary strong::before,
+.prose-brush-secondary b::before,
+.prose-brush-secondary .font-bold::before {
+    background: linear-gradient(135deg, var(--color-secondary-600), var(--color-secondary-400));
+}
+
+/* Masque SVG pour les images */
+.mask-brush {
+    -webkit-mask: url('../../images/front/svgs/brushc1.svg') no-repeat center;
+    mask: url('../../images/front/svgs/brushc1.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.mask-brush-169 {
+    -webkit-mask: url('../../images/front/svgs/brushc169.svg') no-repeat center;
+    mask: url('../../images/front/svgs/brushc169.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+
+/* Classe de base pour tous les masques hero */
+.hero-mask-base {
+  --mask-url: url("../../images/front/mask1.webp"); /* valeur par défaut */
+  
+  /* Propriétés communes à tous les masques */
+  mask-image: var(--mask-url);
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  
+  /* Safari/WebKit */
+  -webkit-mask-image: var(--mask-url);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+
+/* Classes spécifiques avec juste l'URL du masque */
+
+
+
+
+.hero-mask-1{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  
+  mask-image: url("../../images/front/mask1.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("../../images/front/mask1.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+.hero-mask-2{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  mask-image: url("../../images/front/mask2.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("../../images/front/mask2.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+.hero-mask-3{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  mask-image: url("../../images/front/mask3.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("../../images/front/mask3.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+
+.hero-mask-3{
+  /* masque via luminance (blanc = opaque, noir = transparent) */
+  mask-image: url("../../images/front/mask4.webp");
+  mask-mode: luminance;
+  mask-repeat: no-repeat;
+  mask-size: cover;
+  mask-position: center;
+  /* Safari/WebKit */
+  -webkit-mask-image: url("../../images/front/mask4.webp");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  -webkit-mask-position: center;
+}
+
+

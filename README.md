@@ -305,6 +305,10 @@ Le widget `ConstructionModeWidget` (fourni directement par le plugin, namespace 
 
 Il s'appuie sur `AdminSettings::construction` (champ `array` avec `enabled`, `titre`, `description`).
 
+Visible par tout le panel, sauf si l'application gère les permissions : le widget déclare
+`$requiresPermission` et demande au Gate une ability au nom de sa classe. Avec filament-permission-manager,
+il faut la permission `widgets.constructionmode.viewany` (créée par `permissions:sync`).
+
 Pour intercepter les requêtes front en mode maintenance, ajoutez un middleware :
 
 ```php
